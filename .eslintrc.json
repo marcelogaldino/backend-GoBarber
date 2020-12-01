@@ -24,19 +24,19 @@
     ],
     "rules": {
         "class-methods-use-this": "off",
+        "camelcase": "off",
         "import/extensions": [
             "error",
             "ignorePackages",
-
             {
-              "ts": "never"
+                "ts": "never"
             }
-          ],
-          "prettier/prettier": "error"
+        ],
+        "prettier/prettier": "error"
     },
     "settings": {
         "import/resolver": {
-          "typescript": {}
+            "typescript": {}
         }
-      }
+    }
 }
