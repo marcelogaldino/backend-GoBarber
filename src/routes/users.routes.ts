@@ -3,10 +3,6 @@ import { hash } from 'bcryptjs';
 
 import CreateUserService from '../service/CreateUserService';
 
-interface UserInterface {
-    password?: string;
-}
-
 const usersRoutes = Router();
 
 usersRoutes.get('/', async (request, response) => {
