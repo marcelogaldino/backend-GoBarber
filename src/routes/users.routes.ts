@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { hash } from 'bcryptjs';
 
+import UserMap from '../mappers/UserMap';
 import CreateUserService from '../service/CreateUserService';
 
 const usersRoutes = Router();
@@ -17,13 +18,16 @@ usersRoutes.post('/', async (request, response) => {
 
         const hashedPassword = await hash(password, 8);
 
-        const user = await createUser.execute({
+        const userExecute = await createUser.execute({
             name,
             email,
             password: hashedPassword,
         });
 
+        const mappedUser = new UserMap();
+
         // delete user.password;
+        const user = mappedUser.toDTO(userExecute);
 
         return response.json(user);
     } catch (error) {
