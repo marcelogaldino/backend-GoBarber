@@ -7,6 +7,7 @@ import uploadConfig from '../config/upload';
 import UserMap from '../mappers/UserMap';
 import CreateUserService from '../service/CreateUserService';
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+import UpdateUserAvatarService from '../service/UpdateUserAvatarService';
 
 const usersRoutes = Router();
 const upload = multer(uploadConfig);
@@ -16,27 +17,23 @@ usersRoutes.get('/', async (request, response) => {
 });
 
 usersRoutes.post('/', async (request, response) => {
-    try {
-        const { name, email, password } = request.body;
+    const { name, email, password } = request.body;
 
-        const createUser = new CreateUserService();
+    const createUser = new CreateUserService();
 
-        const hashedPassword = await hash(password, 8);
+    const hashedPassword = await hash(password, 8);
 
-        const userExecute = await createUser.execute({
-            name,
-            email,
-            password: hashedPassword,
-        });
+    const userExecute = await createUser.execute({
+        name,
+        email,
+        password: hashedPassword,
+    });
 
-        const mappedUser = new UserMap();
+    const mappedUser = new UserMap();
 
-        const user = mappedUser.toDTO(userExecute);
+    const user = mappedUser.toDTO(userExecute);
 
-        return response.json(user);
-    } catch (error) {
-        return response.status(400).json({ error: error.message });
-    }
+    return response.json(user);
 });
 
 usersRoutes.patch(
@@ -44,7 +41,18 @@ usersRoutes.patch(
     ensureAuthenticated,
     upload.single('avatar'),
     async (request, response) => {
-        return response.json({ message: true });
+        const updateUserAvatar = new UpdateUserAvatarService();
+
+        const unmappedUser = await updateUserAvatar.execute({
+            user_id: request.user.id,
+            avatarFilename: request.file.filename,
+        });
+
+        const mappedUser = new UserMap();
+
+        const user = mappedUser.toDTO(unmappedUser);
+
+        return response.json(user);
     },
 );
 

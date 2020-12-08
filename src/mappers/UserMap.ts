@@ -4,6 +4,7 @@ export default class UserMap {
     public toDTO({
         id,
         name,
+        avatar,
         email,
         created_at,
         updated_at,
@@ -11,6 +12,7 @@ export default class UserMap {
         return {
             id,
             name,
+            avatar,
             email,
             created_at,
             updated_at,
