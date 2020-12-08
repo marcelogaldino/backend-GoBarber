@@ -1,10 +1,15 @@
 import { Router } from 'express';
 import { hash } from 'bcryptjs';
 
+import multer from 'multer';
+
+import uploadConfig from '../config/upload';
 import UserMap from '../mappers/UserMap';
 import CreateUserService from '../service/CreateUserService';
+import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
 const usersRoutes = Router();
+const upload = multer(uploadConfig);
 
 usersRoutes.get('/', async (request, response) => {
     return response.send('ok');
@@ -26,7 +31,6 @@ usersRoutes.post('/', async (request, response) => {
 
         const mappedUser = new UserMap();
 
-        // delete user.password;
         const user = mappedUser.toDTO(userExecute);
 
         return response.json(user);
@@ -34,5 +38,14 @@ usersRoutes.post('/', async (request, response) => {
         return response.status(400).json({ error: error.message });
     }
 });
+
+usersRoutes.patch(
+    '/avatar',
+    ensureAuthenticated,
+    upload.single('avatar'),
+    async (request, response) => {
+        return response.json({ message: true });
+    },
+);
 
 export default usersRoutes;
