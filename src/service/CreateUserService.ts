@@ -1,5 +1,7 @@
 import { getRepository } from 'typeorm';
+
 import User from '../models/User';
+import AppError from '../errors/AppError';
 
 interface Request {
     name: string;
@@ -16,7 +18,7 @@ class CreateUserService {
         });
 
         if (checkUserExists) {
-            throw new Error('The email already used');
+            throw new AppError('The email already used');
         }
 
         const user = usersRepository.create({
