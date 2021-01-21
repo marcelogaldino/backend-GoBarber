@@ -25,6 +25,7 @@
     "rules": {
         "class-methods-use-this": "off",
         "camelcase": "off",
+        "no-underscore-dungle": "off",
         "@typescript-eslint/no-unused-vars": [
             "error",
             {
