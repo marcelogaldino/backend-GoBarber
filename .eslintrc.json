@@ -25,6 +25,7 @@
     "rules": {
         "class-methods-use-this": "off",
         "camelcase": "off",
+        "no-underscore-dungle": "off",
         "@typescript-eslint/no-unused-vars": [
             "error",
             {
@@ -38,6 +39,13 @@
                 "ts": "never"
             }
         ],
+        "@typescript-eslint/naming-convention": ["error", {
+            "selector": "interface",
+            "prefix": ["I"],
+            "format": ["PascalCase"]
+            }
+        ],
+        "no-useless-constructor": "off",
         "prettier/prettier": "error"
     },
     "settings": {

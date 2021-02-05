@@ -5,6 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "date-fns": "^2.16.1",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
@@ -12,17 +13,20 @@
     "multer": "^1.4.2",
     "pg": "^8.5.1",
     "reflect-metadata": "^0.1.13",
+    "tsyringe": "^4.4.0",
     "typeorm": "^0.2.29",
     "uuid": "^8.3.1",
     "uuidv4": "^6.2.5"
   },
   "scripts": {
     "build": "tsc",
-    "dev:server": "ts-node-dev --transpile-only --inspect --ignore-watch node_modules src/server.ts",
+    "dev:server": "ts-node-dev -r tsconfig-paths/register --transpile-only --inspect --ignore-watch node_modules src/shared/infra/http/server.ts",
+    "start": "ts-node src/shared/infra/http/server.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
+    "@types/cors": "^2.8.9",
     "@types/express": "^4.17.8",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/multer": "^1.4.5",
@@ -36,6 +40,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "prettier": "^2.1.2",
     "ts-node-dev": "^1.0.0",
+    "tsconfig-paths": "^3.9.0",
     "typescript": "^4.0.5"
   }
 }
