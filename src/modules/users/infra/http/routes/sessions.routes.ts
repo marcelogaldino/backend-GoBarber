@@ -1,25 +1,10 @@
 import { Router } from 'express';
 
-import AuthenticateUserService from '@modules/users/services/AuthenticateUserService';
-import UserMap from '../../../../../mappers/UserMap';
+import SessionsController from '@modules/users/infra/http/controllers/SessionsController';
 
 const sessionsRoutes = Router();
+const sessionsController = new SessionsController();
 
-sessionsRoutes.post('/', async (request, response) => {
-    const { email, password } = request.body;
-
-    const authenticateUser = new AuthenticateUserService();
-
-    const { user: unmappedUser, token } = await authenticateUser.execute({
-        email,
-        password,
-    });
-
-    const mappedUser = new UserMap();
-
-    const user = mappedUser.toDTO(unmappedUser);
-
-    return response.json({ user, token });
-});
+sessionsRoutes.post('/', sessionsController.create);
 
 export default sessionsRoutes;
