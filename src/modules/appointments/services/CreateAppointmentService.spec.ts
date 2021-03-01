@@ -3,13 +3,17 @@ import AppError from '@shared/errors/AppError';
 import FakeAppointmentsRepository from '@modules/appointments/repositories/fakes/FakeAppointmentsRepository';
 import CreateAppointmentService from './CreateAppointmentService';
 
+let fakeAppointmentsRepository: FakeAppointmentsRepository;
+let createAppointment: CreateAppointmentService;
+
 describe('CreateAppointmentService', () => {
-    it('should be able to create a new Appointment', async () => {
-        const fakeAppointmentsRepository = new FakeAppointmentsRepository();
-        const createAppointment = new CreateAppointmentService(
+    beforeEach(() => {
+        fakeAppointmentsRepository = new FakeAppointmentsRepository();
+        createAppointment = new CreateAppointmentService(
             fakeAppointmentsRepository,
         );
-
+    });
+    it('should be able to create a new Appointment', async () => {
         const appointment = await createAppointment.execute({
             date: new Date(),
             provider_id: '123',
@@ -20,11 +24,6 @@ describe('CreateAppointmentService', () => {
     });
 
     it('should not be able to create Appointments at the same hour', async () => {
-        const fakeAppointmentsRepository = new FakeAppointmentsRepository();
-        const createAppointment = new CreateAppointmentService(
-            fakeAppointmentsRepository,
-        );
-
         const appointmentDate = new Date(2020, 4, 20, 14, 0, 0);
 
         await createAppointment.execute({
@@ -32,7 +31,7 @@ describe('CreateAppointmentService', () => {
             provider_id: '131232156131',
         });
 
-        expect(
+        await expect(
             createAppointment.execute({
                 date: appointmentDate,
                 provider_id: '131232156131',

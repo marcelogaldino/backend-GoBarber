@@ -7,20 +7,20 @@ import UsersController from '@modules/users/infra/http/controllers/UsersControll
 import UserAvatarController from '@modules/users/infra/http/controllers/UserAvatarController';
 import uploadConfig from '@config/upload';
 
-const usersRoutes = Router();
+const usersRouter = Router();
 const usersController = new UsersController();
 const userAvatarController = new UserAvatarController();
 const upload = multer(uploadConfig);
 
-usersRoutes.get('/', async (request, response) => {
+usersRouter.get('/', async (request, response) => {
     return response.send('ok');
 });
-usersRoutes.post('/', usersController.create);
-usersRoutes.patch(
+usersRouter.post('/', usersController.create);
+usersRouter.patch(
     '/avatar',
     ensureAuthenticated,
     upload.single('avatar'),
     userAvatarController.update,
 );
 
-export default usersRoutes;
+export default usersRouter;
