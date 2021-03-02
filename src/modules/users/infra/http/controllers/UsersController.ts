@@ -3,6 +3,7 @@ import { hash } from 'bcryptjs';
 import { container } from 'tsyringe';
 
 import CreateUserService from '@modules/users/services/CreateUserService';
+import { classToClass } from 'class-transformer';
 import UserMap from '../../../../../mappers/UserMap';
 
 export default class UsersController {
@@ -26,6 +27,6 @@ export default class UsersController {
 
         const user = mappedUser.toDTO(userExecute);
 
-        return response.json(user);
+        return response.json(classToClass(user));
     }
 }
