@@ -8,6 +8,7 @@ export default class UserMap {
         email,
         created_at,
         updated_at,
+        getAvatarUrl,
     }: User): Omit<User, 'password'> {
         return {
             id,
@@ -16,6 +17,7 @@ export default class UserMap {
             email,
             created_at,
             updated_at,
+            getAvatarUrl,
         };
     }
 }
